@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"target": "es2019",
+		"strict": true,
+		"module": "ES2015",
+		"moduleResolution": "node",
+		"noEmit": true,
+		"lib": [
+			"es2020",
+			"DOM",
+			"DOM.Iterable",
+		]
+	}
+}
