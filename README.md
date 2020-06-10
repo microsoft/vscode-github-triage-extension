@@ -6,7 +6,7 @@ This is a chromium extension to help with triaging GitHub issues. It was origina
 
 ## Install
 
-You can pull the latest release from the [releases page](https://github.com/microsoft/vscode-github-triage-extension/releases) and unzip it. Then, navigate to your extension configuration page (edge://extensions/, for instance), and make sure "Developper Mode" is enabled. There should be an option to "Load Unpacked". Select this, then choose the folder you uppacked prior.
+You can pull the latest release from the [releases page](https://github.com/microsoft/vscode-github-triage-extension/releases) and unzip it. Then, navigate to your extension configuration page (edge://extensions/, for instance), and make sure "Developer Mode" is enabled. There should be an option to "Load Unpacked". Select this, then choose the folder you unpacked earlier.
 
 ## Usage
 
