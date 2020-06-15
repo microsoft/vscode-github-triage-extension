@@ -1,6 +1,6 @@
 {
   "name": "vscode-issue-triage-extension",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A chromium extension to help with triaging VS Code GitHub issues.",
   "main": "index.js",
   "scripts": {
