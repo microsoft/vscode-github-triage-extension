@@ -10,7 +10,9 @@ You can pull the latest release from the [releases page](https://github.com/micr
 
 ## Usage
 
-Enter in search to accept first result. Tab/ArrowKeys to move around in results. Enter/Space to accept results. Cmd with the action to multi-select.
+Press cmd+shift+P to trigger the extension. This can be customized on your browser's extension configuration page under "Keyboard Shortcuts". 
+
+Press enter in search to accept first result. Tab/ArrowKeys to move around in results. Enter/Space to accept results. Cmd with the action to multi-select.
 
 ## Configuration
 
