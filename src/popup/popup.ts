@@ -194,7 +194,7 @@ const renderNoDataMessage = (container: HTMLElement) => {
 
 const renderInactiveMessage = (container: HTMLElement) => {
 	container.appendChild($('h2', 'This extension not active on this page.'))
-	container.appendChild($('p', 'This extension is only active on `https://github.com/*/issues/*`.'))
+	container.appendChild($('p', 'This extension is only active on `https://github.com/*/issues|pull/*`.'))
 }
 
 const rootContainer = document.getElementById('shortcuts')

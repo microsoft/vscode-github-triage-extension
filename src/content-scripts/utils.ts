@@ -32,4 +32,5 @@ export const awaitFalsey = async (getter: () => any, tries = 25): Promise<void> 
 	}
 }
 
-export const getCurrentRepo = () => /https:\/\/github.com\/([^/]*\/[^/]*)\/issues\/\d*/.exec(window.location.href)?.[1]!
+export const getCurrentRepo = () =>
+	/https:\/\/github.com\/([^/]*\/[^/]*)\/(?:issues|pull)\/\d*/.exec(window.location.href)?.[1]!

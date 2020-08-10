@@ -3,49 +3,424 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-// By default, provide a custom config for microsoft/vscode with all bot actions included.
+// By default, provide a custom config for vscode repositories with bot-triggers included.
 
-import { Config } from './types'
+import { Config, Shortcuts } from './types'
 import { commentShortcut } from './utils'
+
+const verification: Shortcuts[number] = {
+	category: 'Verification',
+	description: 'Apply common verification labels',
+	items: [
+		{
+			type: 'label',
+			value: 'verified',
+			title: 'verified',
+			color: 'rgb(0, 152, 0)',
+		},
+		{
+			type: 'label',
+			value: 'verification-found',
+			title: 'verification-found',
+			color: 'rgb(247, 198, 199)',
+		},
+		{
+			type: 'label',
+			value: 'verification-needed',
+			title: 'verification-needed',
+			color: 'rgb(212, 197, 249)',
+		},
+		{
+			type: 'label',
+			value: 'verification-steps-needed',
+			title: 'verification-steps-needed',
+			color: 'rgb(160, 216, 160)',
+		},
+		{
+			type: 'label',
+			value: 'z-author-verified',
+			title: 'author-verified',
+			color: 'rgb(148, 224, 148)',
+		},
+		{
+			type: 'label',
+			value: 'on-testplan',
+			title: 'on-testplan',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: 'testplan-item',
+			title: 'testplan-item',
+			color: 'rgb(220, 220, 220)',
+		},
+	],
+}
+
+const milestones: Shortcuts[number] = {
+	category: 'Milestones',
+	items: [
+		{
+			type: 'milestone',
+			color: 'rgb(255, 150, 150)',
+			title: 'Backlog',
+			value: 'Backlog',
+		},
+		{
+			type: 'milestone',
+			color: 'rgb(255, 150, 150)',
+			title: 'Backlog Candidates',
+			value: 'Backlog Candidates',
+		},
+		{
+			type: 'milestone',
+			color: 'rgb(255, 150, 150)',
+			title: 'August 2020',
+			value: 'August 2020',
+		},
+		{
+			type: 'milestone',
+			color: 'rgb(255, 150, 150)',
+			title: 'September 2020',
+			value: 'September 2020',
+		},
+		{
+			type: 'milestone',
+			color: 'rgb(255, 150, 150)',
+			title: 'October 2020',
+			value: 'October 2020',
+		},
+		{
+			type: 'milestone',
+			color: 'rgb(255, 150, 150)',
+			title: 'On Deck',
+			value: 'On Deck',
+		},
+	],
+}
+
+const assignees: Shortcuts[number] = {
+	category: 'Assignees',
+	items: [
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'isidorn (Isidor Nikolic)',
+			value: 'isidorn',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'aeschli (Martin Aeschlimann)',
+			value: 'aeschli',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'alexdima (Alexandru Dima)',
+			value: 'alexdima',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'alexr00 (Alex Ross)',
+			value: 'alexr00',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'bpasero (Benjamin Pasero)',
+			value: 'bpasero',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'btholt (Brian Holt)',
+			value: 'btholt',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'chrisdias (Chris Dias)',
+			value: 'chrisdias',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'chrmarti (Christof Marti)',
+			value: 'chrmarti',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'Chuxel (Chuck Lantz)',
+			value: 'Chuxel',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'connor4312 (Connor Peet)',
+			value: 'connor4312',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'dbaeumer (Dirk Bäumer)',
+			value: 'dbaeumer',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'deepak1556 (Robo)',
+			value: 'deepak1556',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'devinvalenciano (Devin Valenciano)',
+			value: 'devinvalenciano',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'eamodio (Eric Amodio)',
+			value: 'eamodio',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'egamma (Erich Gamma)',
+			value: 'egamma',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'fiveisprime (Matt Hernandez)',
+			value: 'fiveisprime',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'gregvanl (Greg Van Liew)',
+			value: 'gregvanl',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'joaomoreno (João Moreno)',
+			value: 'joaomoreno',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'jrieken (Johannes Rieken)',
+			value: 'jrieken',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'kieferrm (Kai Maetzel)',
+			value: 'kieferrm',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'lszomoru (Ladislau Szomoru)',
+			value: 'lszomoru',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'misolori (Miguel Solorio)',
+			value: 'misolori',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'mjbvz (Matt Bierner)',
+			value: 'mjbvz',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'rebornix (Peng Lyu)',
+			value: 'rebornix',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'RMacfarlane (Rachel Macfarlane)',
+			value: 'RMacfarlane',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'roblourens (Rob Lourens)',
+			value: 'roblourens',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'sana-ajani (Sana Ajani)',
+			value: 'sana-ajani',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'JacksonKearl (Jackson Kearl)',
+			value: 'JacksonKearl',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'sandy081 (Sandeep Somavarapu)',
+			value: 'sandy081',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'sbatten (SteVen Batten)',
+			value: 'sbatten',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'stevencl (Steven Clarke)',
+			value: 'stevencl',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'Tyriar (Daniel Imms)',
+			value: 'Tyriar',
+		},
+		{
+			type: 'assign',
+			color: 'rgb(245, 222, 179)',
+			title: 'weinand (Andre Weinand)',
+			value: 'weinand',
+		},
+	],
+}
+
+const general: Shortcuts[number] = {
+	category: 'General',
+	items: [
+		{
+			type: 'label',
+			value: 'bug',
+			title: 'bug',
+			color: 'rgb(141, 102, 115)',
+		},
+		{
+			type: 'label',
+			value: 'feature-request',
+			title: 'feature-request',
+			color: 'rgb(220, 220, 220)',
+		},
+		{
+			type: 'label',
+			value: 'debt',
+			title: 'debt',
+			color: 'rgb(220, 220, 220)',
+		},
+		{
+			type: 'comment',
+			value: '\\closedWith ',
+			title: '\\closedWith SHA',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: 'needs more info',
+			title: 'needs more info',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: '~needs more info',
+			title: 'needs more info (bot comments)',
+			color: 'rgb(226, 161, 194)',
+		},
+	],
+}
+
+const wontfix: Shortcuts[number] = {
+	category: "Won't Fix",
+	description: 'Trigger bot to close issue and add a comment explaining why',
+	items: [
+		{
+			type: 'label',
+			value: '*as-designed',
+			title: '*as-designed',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: '*caused-by-extension',
+			title: '*caused-by-extension',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: '*dev-question',
+			title: '*dev-question',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: '*duplicate',
+			title: '*duplicate',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'comment',
+			value: '\\duplicate #',
+			title: '\\duplicate #REF',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: '*english-please',
+			title: '*english-please',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: '*extension-candidate',
+			title: '*extension-candidate',
+			color: 'rgb(212, 197, 249)',
+		},
+		{
+			type: 'label',
+			value: '*not-reproducible',
+			title: '*not-reproducible',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: '*off-topic',
+			title: '*off-topic',
+			color: 'rgb(227, 227, 227)',
+		},
+		{
+			type: 'label',
+			value: '*out-of-scope',
+			title: '*out-of-scope',
+			color: 'rgb(226, 161, 194)',
+		},
+		{
+			type: 'label',
+			value: '*question',
+			title: '*question',
+			color: 'rgb(220, 220, 220)',
+		},
+	],
+}
 
 export const defaultConfig: Config = {
 	'microsoft/vscode': [
-		{
-			category: 'Verification',
-			description: 'Apply common verification labels',
-			items: [
-				{
-					type: 'label',
-					value: 'verified',
-					title: 'verified',
-					color: 'rgb(0, 152, 0)',
-				},
-				{
-					type: 'label',
-					value: 'verification-found',
-					title: 'verification-found',
-					color: 'rgb(247, 198, 199)',
-				},
-				{
-					type: 'label',
-					value: 'verification-needed',
-					title: 'verification-needed',
-					color: 'rgb(212, 197, 249)',
-				},
-				{
-					type: 'label',
-					value: 'verification-steps-needed',
-					title: 'verification-steps-needed',
-					color: 'rgb(160, 216, 160)',
-				},
-				{
-					type: 'label',
-					value: 'z-author-verified',
-					title: 'author-verified',
-					color: 'rgb(148, 224, 148)',
-				},
-			],
-		},
+		verification,
 		{
 			category: 'Author Verification',
 			description:
@@ -77,101 +452,8 @@ export const defaultConfig: Config = {
 				commentShortcut('JavaDebug', '\\extJavaDebug'),
 			],
 		},
-		{
-			category: "Won't Fix",
-			description: 'Trigger bot to close issue and add a comment explaining why',
-			items: [
-				{
-					type: 'label',
-					value: '*as-designed',
-					title: '*as-designed',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*caused-by-extension',
-					title: '*caused-by-extension',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*dev-question',
-					title: '*dev-question',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*duplicate',
-					title: '*duplicate',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'comment',
-					value: '\\duplicate #',
-					title: '\\duplicate #REF',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*english-please',
-					title: '*english-please',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*extension-candidate',
-					title: '*extension-candidate',
-					color: 'rgb(212, 197, 249)',
-				},
-				{
-					type: 'label',
-					value: '*not-reproducible',
-					title: '*not-reproducible',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*off-topic',
-					title: '*off-topic',
-					color: 'rgb(227, 227, 227)',
-				},
-				{
-					type: 'label',
-					value: '*out-of-scope',
-					title: '*out-of-scope',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*question',
-					title: '*question',
-					color: 'rgb(220, 220, 220)',
-				},
-			],
-		},
-		{
-			category: 'General',
-			items: [
-				{
-					type: 'label',
-					value: 'bug',
-					title: 'bug',
-					color: 'rgb(141, 102, 115)',
-				},
-				{
-					type: 'label',
-					value: 'feature-request',
-					title: 'feature-request',
-					color: 'rgb(220, 220, 220)',
-				},
-				{
-					type: 'comment',
-					value: '\\closedWith ',
-					title: '\\closedWith SHA',
-					color: 'rgb(226, 161, 194)',
-				},
-			],
-		},
+		wontfix,
+		general,
 		{
 			category: 'Feature Areas',
 			items: [
@@ -1107,377 +1389,13 @@ export const defaultConfig: Config = {
 				},
 			],
 		},
-		{
-			category: 'Assignees',
-			items: [
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'isidorn (Isidor Nikolic)',
-					value: 'isidorn',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'aeschli (Martin Aeschlimann)',
-					value: 'aeschli',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'alexdima (Alexandru Dima)',
-					value: 'alexdima',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'alexr00 (Alex Ross)',
-					value: 'alexr00',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'bpasero (Benjamin Pasero)',
-					value: 'bpasero',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'btholt (Brian Holt)',
-					value: 'btholt',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'chrisdias (Chris Dias)',
-					value: 'chrisdias',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'chrmarti (Christof Marti)',
-					value: 'chrmarti',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'Chuxel (Chuck Lantz)',
-					value: 'Chuxel',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'connor4312 (Connor Peet)',
-					value: 'connor4312',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'dbaeumer (Dirk Bäumer)',
-					value: 'dbaeumer',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'deepak1556 (Robo)',
-					value: 'deepak1556',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'devinvalenciano (Devin Valenciano)',
-					value: 'devinvalenciano',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'eamodio (Eric Amodio)',
-					value: 'eamodio',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'egamma (Erich Gamma)',
-					value: 'egamma',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'fiveisprime (Matt Hernandez)',
-					value: 'fiveisprime',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'gregvanl (Greg Van Liew)',
-					value: 'gregvanl',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'joaomoreno (João Moreno)',
-					value: 'joaomoreno',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'jrieken (Johannes Rieken)',
-					value: 'jrieken',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'kieferrm (Kai Maetzel)',
-					value: 'kieferrm',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'lramos15 (Logan Ramos)',
-					value: 'lramos15',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'lszomoru (Ladislau Szomoru)',
-					value: 'lszomoru',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'misolori (Miguel Solorio)',
-					value: 'misolori',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'mjbvz (Matt Bierner)',
-					value: 'mjbvz',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'rebornix (Peng Lyu)',
-					value: 'rebornix',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'RMacfarlane (Rachel Macfarlane)',
-					value: 'RMacfarlane',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'roblourens (Rob Lourens)',
-					value: 'roblourens',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'sana-ajani (Sana Ajani)',
-					value: 'sana-ajani',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'JacksonKearl (Jackson Kearl)',
-					value: 'JacksonKearl',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'sandy081 (Sandeep Somavarapu)',
-					value: 'sandy081',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'sbatten (SteVen Batten)',
-					value: 'sbatten',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'stevencl (Steven Clarke)',
-					value: 'stevencl',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'Tyriar (Daniel Imms)',
-					value: 'Tyriar',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'weinand (Andre Weinand)',
-					value: 'weinand',
-				},
-			],
-		},
-		{
-			category: 'Milestones',
-			items: [
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'Backlog',
-					value: 'Backlog',
-				},
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'Backlog Candidates',
-					value: 'Backlog Candidates',
-				},
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'June 2020',
-					value: 'June 2020',
-				},
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'July 2020',
-					value: 'July 2020',
-				},
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'On Deck',
-					value: 'On Deck',
-				},
-			],
-		},
+		assignees,
+		milestones,
 	],
 	'microsoft/vscode-remote-release': [
-		{
-			category: 'Verification',
-			description: 'Apply common verification labels',
-			items: [
-				{
-					type: 'label',
-					value: 'verified',
-					title: 'verified',
-					color: 'rgb(0, 152, 0)',
-				},
-				{
-					type: 'label',
-					value: 'verification-found',
-					title: 'verification-found',
-					color: 'rgb(247, 198, 199)',
-				},
-				{
-					type: 'label',
-					value: 'verification-needed',
-					title: 'verification-needed',
-					color: 'rgb(212, 197, 249)',
-				},
-				{
-					type: 'label',
-					value: 'verification-steps-needed',
-					title: 'verification-steps-needed',
-					color: 'rgb(160, 216, 160)',
-				},
-			],
-		},
-		{
-			category: "Won't Fix",
-			description: 'Trigger bot to close issue and add a comment explaining why',
-			items: [
-				{
-					type: 'label',
-					value: '*as-designed',
-					title: '*as-designed',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*caused-by-extension',
-					title: '*caused-by-extension',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*dev-question',
-					title: '*dev-question',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*duplicate',
-					title: '*duplicate',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'comment',
-					value: '\\duplicate #',
-					title: '\\duplicate #REF',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*english-please',
-					title: '*english-please',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*extension-candidate',
-					title: '*extension-candidate',
-					color: 'rgb(212, 197, 249)',
-				},
-				{
-					type: 'label',
-					value: '*not-reproducible',
-					title: '*not-reproducible',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*off-topic',
-					title: '*off-topic',
-					color: 'rgb(227, 227, 227)',
-				},
-				{
-					type: 'label',
-					value: '*out-of-scope',
-					title: '*out-of-scope',
-					color: 'rgb(226, 161, 194)',
-				},
-				{
-					type: 'label',
-					value: '*question',
-					title: '*question',
-					color: 'rgb(220, 220, 220)',
-				},
-			],
-		},
-		{
-			category: 'General',
-			items: [
-				{
-					type: 'label',
-					value: 'bug',
-					title: 'bug',
-					color: 'rgb(141, 102, 115)',
-				},
-				{
-					type: 'label',
-					value: 'feature-request',
-					title: 'feature-request',
-					color: 'rgb(220, 220, 220)',
-				},
-				{
-					type: 'comment',
-					value: '\\closedWith ',
-					title: '\\closedWith SHA',
-					color: 'rgb(226, 161, 194)',
-				},
-			],
-		},
+		verification,
+		wontfix,
+		general,
 		{
 			category: 'Feature Areas',
 			items: [
@@ -1501,249 +1419,7 @@ export const defaultConfig: Config = {
 				},
 			],
 		},
-		{
-			category: 'Assignees',
-			items: [
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'isidorn (Isidor Nikolic)',
-					value: 'isidorn',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'aeschli (Martin Aeschlimann)',
-					value: 'aeschli',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'alexdima (Alexandru Dima)',
-					value: 'alexdima',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'alexr00 (Alex Ross)',
-					value: 'alexr00',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'bpasero (Benjamin Pasero)',
-					value: 'bpasero',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'btholt (Brian Holt)',
-					value: 'btholt',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'chrisdias (Chris Dias)',
-					value: 'chrisdias',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'chrmarti (Christof Marti)',
-					value: 'chrmarti',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'Chuxel (Chuck Lantz)',
-					value: 'Chuxel',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'connor4312 (Connor Peet)',
-					value: 'connor4312',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'dbaeumer (Dirk Bäumer)',
-					value: 'dbaeumer',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'deepak1556 (Robo)',
-					value: 'deepak1556',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'devinvalenciano (Devin Valenciano)',
-					value: 'devinvalenciano',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'eamodio (Eric Amodio)',
-					value: 'eamodio',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'egamma (Erich Gamma)',
-					value: 'egamma',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'fiveisprime (Matt Hernandez)',
-					value: 'fiveisprime',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'gregvanl (Greg Van Liew)',
-					value: 'gregvanl',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'joaomoreno (João Moreno)',
-					value: 'joaomoreno',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'jrieken (Johannes Rieken)',
-					value: 'jrieken',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'kieferrm (Kai Maetzel)',
-					value: 'kieferrm',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'lramos15 (Logan Ramos)',
-					value: 'lramos15',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'lszomoru (Ladislau Szomoru)',
-					value: 'lszomoru',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'misolori (Miguel Solorio)',
-					value: 'misolori',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'mjbvz (Matt Bierner)',
-					value: 'mjbvz',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'rebornix (Peng Lyu)',
-					value: 'rebornix',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'RMacfarlane (Rachel Macfarlane)',
-					value: 'RMacfarlane',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'roblourens (Rob Lourens)',
-					value: 'roblourens',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'sana-ajani (Sana Ajani)',
-					value: 'sana-ajani',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'JacksonKearl (Jackson Kearl)',
-					value: 'JacksonKearl',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'sandy081 (Sandeep Somavarapu)',
-					value: 'sandy081',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'sbatten (SteVen Batten)',
-					value: 'sbatten',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'stevencl (Steven Clarke)',
-					value: 'stevencl',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'Tyriar (Daniel Imms)',
-					value: 'Tyriar',
-				},
-				{
-					type: 'assign',
-					color: 'rgb(245, 222, 179)',
-					title: 'weinand (Andre Weinand)',
-					value: 'weinand',
-				},
-			],
-		},
-		{
-			category: 'Milestones',
-			items: [
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'Backlog',
-					value: 'Backlog',
-				},
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'Backlog Candidates',
-					value: 'Backlog Candidates',
-				},
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'June 2020',
-					value: 'June 2020',
-				},
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'July 2020',
-					value: 'July 2020',
-				},
-				{
-					type: 'milestone',
-					color: 'rgb(255, 150, 150)',
-					title: 'On Deck',
-					value: 'On Deck',
-				},
-			],
-		},
+		assignees,
+		milestones,
 	],
 }
