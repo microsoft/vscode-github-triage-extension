@@ -10,7 +10,7 @@ You can pull the latest release from the [releases page](https://github.com/micr
 
 ## Usage
 
-Press Cmd+Shift+L to trigger the extension. This can be customized on your browser's extension configuration page under "Keyboard Shortcuts". (This was previously Cmd+Shift+L but changed due to conflict with Codepsaces)
+Press Cmd+Shift+L to trigger the extension. This can be customized on your browser's extension configuration page under "Keyboard Shortcuts". (This was previously Cmd+Shift+P but changed due to conflict with Codepsaces)
 
 Press enter in search to accept first result. Tab/ArrowKeys to move around in results. Enter/Space to accept results. Cmd with the action to multi-select.
 
