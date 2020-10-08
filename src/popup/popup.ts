@@ -74,6 +74,7 @@ const renderShortcuts = (container: HTMLElement, shortcuts: Shortcuts, focusFilt
 			labelButton.addEventListener('keydown', async (event) => {
 				switch (event.key) {
 					case 'Enter':
+						event.preventDefault()
 						await sendShortcutMessage(item, focusFilterText, event.metaKey)
 						break
 					case 'ArrowLeft':
