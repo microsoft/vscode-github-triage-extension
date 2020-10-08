@@ -1,6 +1,6 @@
 {
   "name": "VS Code Triage",
-  "version": "0.0.1",
+  "version": "0.2.1",
   "manifest_version": 2,
   "description": "A chromium extension to help with triaging VS Code GitHub issues.",
   "icons": {
