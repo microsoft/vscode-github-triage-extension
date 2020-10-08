@@ -75,20 +75,14 @@ const milestones: Shortcuts[number] = {
 		{
 			type: 'milestone',
 			color: 'rgb(255, 150, 150)',
-			title: 'August 2020',
-			value: 'August 2020',
-		},
-		{
-			type: 'milestone',
-			color: 'rgb(255, 150, 150)',
-			title: 'September 2020',
-			value: 'September 2020',
-		},
-		{
-			type: 'milestone',
-			color: 'rgb(255, 150, 150)',
 			title: 'October 2020',
 			value: 'October 2020',
+		},
+		{
+			type: 'milestone',
+			color: 'rgb(255, 150, 150)',
+			title: 'November 2020',
+			value: 'November 2020',
 		},
 		{
 			type: 'milestone',
